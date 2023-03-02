@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itm_menu"
+        android:icon="@drawable/menu"
+        android:title="Return to menu"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itm_sign_out"
+        android:icon="@drawable/sign_out"
+        android:title="Sign out"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itm_change_pass"
+        android:icon="@drawable/change_pass"
+        android:title="Change password"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itm_del_acc"
+        android:icon="@drawable/del_acc"
+        android:title="Delete account"
+        app:showAsAction="always" />
+</menu>
