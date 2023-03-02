@@ -6,11 +6,11 @@ public class Counter
 {
     public int id;
     public int icon;
-    public Location location;
+    public int location;
     public String name;
     public String unit;
 
-    public Counter(int id, int icon, Location location, String name, String unit)
+    public Counter(int id, int icon, int location, String name, String unit)
     {
         this.id = id;
         this.icon = icon;
@@ -21,7 +21,7 @@ public class Counter
 
     public String toString()
     {
-        return name;
+        return id + "\t|\t" + name;
     }
 
 }

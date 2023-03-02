@@ -38,8 +38,10 @@ public class AuthActivity extends AppCompatActivity {
 
         g.db = new DB(this, "counters.db", null, 1);
 
-        String token = g.db.getToken();
-        if (token != null)
+        String token = "";
+        if (g.db.getToken() != null)
+            token = g.db.getToken();
+        if (token != null && !token.equals(""))
         if (!token.equals("null")) {
             g.key = token;
             i = new Intent(this, MenuActivity.class);

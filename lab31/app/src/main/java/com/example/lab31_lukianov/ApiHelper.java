@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ApiHelper {
-    public String base = "http://labs-api.spbcoit.ru:80/lab/resources/api/rpc";
+    public String base = "http://spbcoit.ru:80/lab/resources/api/rpc";
     Activity ctx;
     public String sessionKey = "null";
     public boolean isEnd;

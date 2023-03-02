@@ -30,6 +30,7 @@ public class LocationActivity extends AppCompatActivity {
     View dialogChangePassView;
     EditText changePass;
     Button btnChangePass;
+    Button btnDelete;
     Intent i;
     ApiHelper apiHelper;
 
@@ -44,6 +45,7 @@ public class LocationActivity extends AppCompatActivity {
         ctx = this;
 
         txtLocationName = findViewById(R.id.editTextLocationName);
+        btnDelete = findViewById(R.id.btnDelLocation);
 
         i = getIntent();
         int id = i.getIntExtra("id", -1);
@@ -51,6 +53,9 @@ public class LocationActivity extends AppCompatActivity {
         location = new Location(id, name);
         if (location.name != null)
         txtLocationName.setText(location.name);
+
+        if (g.action == "add")
+            btnDelete.setVisibility(View.GONE);
 
         //dialog
         LayoutInflater dialogLayout = LayoutInflater.from(this);
@@ -107,9 +112,11 @@ public class LocationActivity extends AppCompatActivity {
         {
             @Override
             public void on_ready(String res) {
-                ctx.finish();
-                i = new Intent(ctx, LocationsActivity.class);
-                startActivity(i);
+                if (res.equals("true")) {
+                    ctx.finish();
+                    i = new Intent(ctx, LocationsActivity.class);
+                    startActivity(i);
+                }
             }
         };
         apiHelper.send(req, body);
@@ -120,11 +127,16 @@ public class LocationActivity extends AppCompatActivity {
         apiHelper = new ApiHelper(ctx)
         {
             @Override
-            public void on_ready(String res) {
-                super.on_ready(res);
+            public void on_ready(String res)
+            {
+                if (res.equals("true")) {
+                    ctx.finish();
+                    i = new Intent(ctx, LocationsActivity.class);
+                    startActivity(i);
+                }
             }
         };
-        apiHelper.send("/delete_location", "{\"id1\": \"" + location.id + "\", \"key1\": \"" + g.key + "\"}");
+        apiHelper.send("/delete_location", "{\"id1\": " + location.id + ", \"key1\": \"" + g.key + "\"}");
     }
 
     @Override

@@ -15,8 +15,9 @@
         android:text="@string/btnLocations" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnCounters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:onClick="onSelectActivity"
+        android:text="@string/btnCounters" />
 </LinearLayout>

@@ -6,10 +6,12 @@
     <string name="labPassword">Password</string>
     <string name="labName">Name:</string>
     <string name="labNewPassword">New password</string>
+    <string name="labLocation">Location: </string>
     <string name="btnSignUp">SIGN UP</string>
     <string name="btnSignIn">SIGN IN</string>
     <string name="btnChangePass">CHANGE PASSWORD</string>
     <string name="btnLocations">LOCATIONS</string>
+    <string name="btnCounters">COUNTERS</string>
     <string name="btnAdd">ADD</string>
     <string name="btnEdit">EDIT</string>
     <string name="btnDelete">DELETE</string>

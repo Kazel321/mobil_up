@@ -1,4 +1,4 @@
-package com.example.lab31_lukianov.activity;
+package com.example.lab31_lukianov;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,28 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lab31_lukianov.ApiHelper;
-import com.example.lab31_lukianov.R;
-import com.example.lab31_lukianov.g;
+import com.example.lab31_lukianov.activity.AuthActivity;
+import com.example.lab31_lukianov.activity.MenuActivity;
 
-public class MenuActivity extends AppCompatActivity {
+public class CounterActivity extends AppCompatActivity {
 
     AlertDialog alertDialogChangePass;
-    Intent i;
     Activity ctx;
     View dialogChangePassView;
     EditText changePass;
     Button btnChangePass;
-
-
-
-
+    Intent i;
+    ApiHelper apiHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-
-        ctx = this;
+        setContentView(R.layout.activity_counter);
 
         //dialog
         LayoutInflater dialogLayout = LayoutInflater.from(this);
@@ -69,25 +63,6 @@ public class MenuActivity extends AppCompatActivity {
                 apiHelper.send("/update_password", "{\"key1\": \"" + g.key + "\", \"password1\": \"" + newPass + "\"}");
             }
         });
-    }
-
-    public void onSelectActivity(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.btnLocations:
-            {
-                i = new Intent(this, LocationsActivity.class);
-                finish();
-                startActivity(i);
-            }
-            case R.id.btnCounters:
-            {
-                i = new Intent(this, CountersActivity.class);
-                finish();
-                startActivity(i);
-            }
-        }
     }
 
     @Override
