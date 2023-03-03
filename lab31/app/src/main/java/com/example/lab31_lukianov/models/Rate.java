@@ -1,15 +1,18 @@
 package com.example.lab31_lukianov.models;
 
 import java.security.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Rate
 {
     public int id;
-    public Counter counter;
-    public Timestamp ts;
+    public int counter;
+    public Date ts;
     public Float value;
 
-    public Rate(int id, Counter counter, Timestamp ts, Float value)
+    public Rate(int id, int counter, Date ts, Float value)
     {
         this.id = id;
         this.counter = counter;
@@ -17,8 +20,10 @@ public class Rate
         this.value = value;
     }
 
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
     public String toString()
     {
-        return counter.id + "\t|\t" + value.toString();
+        return id + "\t\t\t\t" + dateFormat.format(ts) + "\t\t\t\t" + value.toString();
     }
 }

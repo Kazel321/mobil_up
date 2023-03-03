@@ -16,7 +16,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".CounterActivity"
+            android:name=".activity.model.RateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.RatesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.model.CounterActivity"
             android:exported="false" />
         <activity
             android:name=".activity.CountersActivity"

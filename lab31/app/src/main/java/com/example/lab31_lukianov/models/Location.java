@@ -5,6 +5,11 @@ public class Location
     public int id;
     public String name;
 
+    public Location()
+    {
+
+    }
+
     public Location(int id, String name)
     {
         this.id = id;
@@ -13,6 +18,6 @@ public class Location
 
     public String toString()
     {
-        return id + "\t|\t" + name;
+        return id + "\t\t" + name;
     }
 }

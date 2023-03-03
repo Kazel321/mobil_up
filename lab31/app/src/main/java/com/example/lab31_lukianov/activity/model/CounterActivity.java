@@ -1,4 +1,4 @@
-package com.example.lab31_lukianov.activity;
+package com.example.lab31_lukianov.activity.model;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,25 +16,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.lab31_lukianov.ApiHelper;
 import com.example.lab31_lukianov.R;
-import com.example.lab31_lukianov.activity.model.CounterActivity;
-import com.example.lab31_lukianov.activity.model.LocationActivity;
+import com.example.lab31_lukianov.activity.AuthActivity;
+import com.example.lab31_lukianov.activity.CountersActivity;
+import com.example.lab31_lukianov.activity.LocationsActivity;
+import com.example.lab31_lukianov.activity.MenuActivity;
 import com.example.lab31_lukianov.g;
-import com.example.lab31_lukianov.models.Counter;
 import com.example.lab31_lukianov.models.Location;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-public class CountersActivity extends AppCompatActivity {
-
+public class CounterActivity extends AppCompatActivity {
 
     AlertDialog alertDialogChangePass;
     Activity ctx;
@@ -44,26 +41,43 @@ public class CountersActivity extends AppCompatActivity {
     Intent i;
     ApiHelper apiHelper;
 
-    ListView lstctl;
-    ArrayList<Counter> lst = new ArrayList<>();
-    ArrayAdapter<Counter> adp;
-
     Spinner spnLocations;
     ArrayAdapter<Location> locationAdapter;
+    EditText txtName;
+    EditText txtUnit;
 
-    int selectedCounter = -1;
     String selLocation = "";
+
+    int id;
+    int locationId;
+
+    Button btnDel;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counters);
+        setContentView(R.layout.activity_counter);
 
         ctx = this;
 
-        spnLocations = findViewById(R.id.spnLocation);
+        btnDel = findViewById(R.id.btnDelCounter);
+
+        txtName = findViewById(R.id.txtCounterName);
+        txtUnit = findViewById(R.id.txtCounterUnit);
+
+        spnLocations = findViewById(R.id.spnCounterLocations);
         locationAdapter = new ArrayAdapter<Location>(this, android.R.layout.simple_list_item_1);
         spnLocations.setAdapter(locationAdapter);
+
+        i = getIntent();
+        id = i.getIntExtra("id", -1);
+        locationId = i.getIntExtra("locationId", -1);
+        String name = i.getStringExtra("name");
+        String unit = i.getStringExtra("unit");
+
+        txtName.setText(name);
+        txtUnit.setText(unit);
 
         apiHelper = new ApiHelper(ctx) {
             @Override
@@ -71,13 +85,17 @@ public class CountersActivity extends AppCompatActivity {
             {
                 try {
                     JSONArray arr = new JSONArray(res);
+                    int itm = 0;
                     for (int i = 0; i < arr.length(); i++) {
                         JSONObject obj = arr.getJSONObject(i);
                         Location l = new Location();
                         l.id = obj.getInt("id2");
+                        if (l.id == locationId)
+                            itm = i;
                         l.name = obj.getString("name2");
                         locationAdapter.add(l);
                     }
+                    spnLocations.setSelection(itm);
                     locationAdapter.notifyDataSetChanged();
                 }
                 catch (Exception e)
@@ -92,7 +110,6 @@ public class CountersActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selLocation = "" + locationAdapter.getItem(i).id;
-                update();
             }
 
             @Override
@@ -101,22 +118,7 @@ public class CountersActivity extends AppCompatActivity {
             }
         });
 
-        lstctl = findViewById(R.id.listCounters);
-        lstctl.setOnItemClickListener((parent, view, position, id) ->
-        {
-            selectedCounter = (int) id + 1;
-            g.action = "edit";
-            i = new Intent(this, CounterActivity.class);
-            i.putExtra("locationId", lst.get(selectedCounter-1).location);
-            i.putExtra("id", lst.get(selectedCounter-1).id);
-            i.putExtra("name", lst.get(selectedCounter-1).name);
-            i.putExtra("unit", lst.get(selectedCounter-1).unit);
-            startActivity(i);
-        });
-
-        adp = new ArrayAdapter<Counter>(this, android.R.layout.simple_list_item_1, lst);
-        lstctl.setAdapter(adp);
-        update();
+        if (g.action == "add") btnDel.setVisibility(View.GONE);
 
         //dialog
         LayoutInflater dialogLayout = LayoutInflater.from(this);
@@ -151,45 +153,57 @@ public class CountersActivity extends AppCompatActivity {
         });
     }
 
-    public void update()
+    public void onSave(View v)
     {
-        lst.clear();
-        apiHelper = new ApiHelper(this)
+        String name = txtName.getText().toString();
+        String unit = txtUnit.getText().toString();
+        int icon = 0;
+        int locationId = locationAdapter.getItem(spnLocations.getSelectedItemPosition()).id;
+
+        String req = "";
+        String body = "";
+        switch (g.action)
+        {
+            case "add":
+            {
+                req = "/add_counter";
+                body = "{\"icon1\": 0, \"key1\": \"" + g.key + "\", \"location1\": " + locationId + ", \"name1\": \"" + name + "\", \"unit1\": \"" + unit + "\"}";
+                break;
+            }
+            case "edit":
+            {
+                req = "/update_counter";
+                body = "{\"counter1\": " + id + ", \"icon1\": 0, \"key1\": \"" + g.key + "\", \"location1\": " + locationId + ", \"name1\": \"" + name + "\", \"unit1\": \"" + unit + "\"}";
+            }
+        }
+        apiHelper = new ApiHelper(ctx)
         {
             @Override
             public void on_ready(String res) {
-                try
-                {
-                    JSONArray arr = new JSONArray(res);
-                    for (int j = 0; j < arr.length(); j++)
-                    {
-                        JSONObject jsonObject = arr.getJSONObject(j);
-                        int id = jsonObject.getInt("id2");
-                        String name = jsonObject.getString("name2");
-                        String unit = jsonObject.getString("unit2");
-                        int icon = jsonObject.getInt("icon2");
-                        int locaiton = jsonObject.getInt("location2");
-
-                        Counter c = new Counter(id, icon, locaiton, name, unit);
-                        lst.add(c);
-                    }
-                    adp.notifyDataSetChanged();
+                if (res.equals("true")) {
+                    ctx.finish();
+                    i = new Intent(ctx, CountersActivity.class);
+                    startActivity(i);
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
             }
         };
-        apiHelper.send("/get_counters", "{\"key1\": \"" + g.key + "\", \"location1\": " + selLocation + "}");
+        apiHelper.send(req, body);
     }
 
-    public void onAdd(View v)
+    public void onDelete(View v)
     {
-        g.action = "add";
-        i = new Intent(this, CounterActivity.class);
-        startActivity(i);
+        apiHelper = new ApiHelper(ctx)
+        {
+            @Override
+            public void on_ready(String res) {
+                if (res.equals("true")) {
+                    ctx.finish();
+                    i = new Intent(ctx, CountersActivity.class);
+                    startActivity(i);
+                }
+            }
+        };
+        apiHelper.send("/delete_counter", "{\"counter1\": " + id + ", \"key1\": \"" + g.key + "\"}");
     }
 
     @Override
@@ -219,10 +233,12 @@ public class CountersActivity extends AppCompatActivity {
                     @Override
                     public void on_ready(String res) {
                         super.on_ready(res);
-                        g.db.saveToken("null");
-                        i = new Intent(ctx, AuthActivity.class);
-                        finish();
-                        startActivity(i);
+                        if (res.equals(true)) {
+                            g.db.saveToken("null");
+                            i = new Intent(ctx, AuthActivity.class);
+                            finish();
+                            startActivity(i);
+                        }
                     }
                 };
                 apiHelper.send("/sign_out", "{\"key1\": \"" + g.key + "\"}");

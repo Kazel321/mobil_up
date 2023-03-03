@@ -78,16 +78,25 @@ public class MenuActivity extends AppCompatActivity {
             case R.id.btnLocations:
             {
                 i = new Intent(this, LocationsActivity.class);
-                finish();
-                startActivity(i);
+                break;
             }
             case R.id.btnCounters:
             {
                 i = new Intent(this, CountersActivity.class);
-                finish();
-                startActivity(i);
+                break;
+            }
+            case R.id.btnRates:
+            {
+                i = new Intent(this, RatesActivity.class);
+                break;
+            }
+            case R.id.btnMeasurements:
+            {
+                i = new Intent(this, CountersActivity.class);
+                break;
             }
         }
+        startActivity(i);
     }
 
     @Override

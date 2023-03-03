@@ -10,6 +10,9 @@ public class Counter
     public String name;
     public String unit;
 
+    public Counter()
+    {}
+
     public Counter(int id, int icon, int location, String name, String unit)
     {
         this.id = id;
@@ -21,7 +24,7 @@ public class Counter
 
     public String toString()
     {
-        return id + "\t|\t" + name;
+        return id + "\t\t" + name;
     }
 
 }

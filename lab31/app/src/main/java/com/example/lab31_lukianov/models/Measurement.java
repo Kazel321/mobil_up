@@ -1,16 +1,19 @@
 package com.example.lab31_lukianov.models;
 
 import java.security.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Measurement
 {
     public int id;
-    public Counter counter;
+    public int counter;
     public String image;
-    public Timestamp ts;
+    public Date ts;
     public Float value;
 
-    public Measurement(int id, Counter counter, String image, Timestamp ts, Float value)
+    public Measurement(int id, int counter, String image, Date ts, Float value)
     {
         this.id = id;
         this.counter = counter;
@@ -19,9 +22,11 @@ public class Measurement
         this.value = value;
     }
 
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
     public String toString()
     {
-        return counter.id + "\t|\t" + value.toString();
+        return id + "\t\t\t\t" + dateFormat.format(ts) + "\t\t\t\t" + value.toString();
     }
 
 }

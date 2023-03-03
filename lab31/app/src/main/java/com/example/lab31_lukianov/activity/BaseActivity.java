@@ -1,7 +1,4 @@
-package com.example.lab31_lukianov;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.lab31_lukianov.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,11 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lab31_lukianov.activity.AuthActivity;
-import com.example.lab31_lukianov.activity.MenuActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class CounterActivity extends AppCompatActivity {
+import com.example.lab31_lukianov.ApiHelper;
+import com.example.lab31_lukianov.R;
+import com.example.lab31_lukianov.g;
 
+public class BaseActivity extends AppCompatActivity
+{
     AlertDialog alertDialogChangePass;
     Activity ctx;
     View dialogChangePassView;
@@ -27,10 +29,12 @@ public class CounterActivity extends AppCompatActivity {
     Button btnChangePass;
     Intent i;
     ApiHelper apiHelper;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
+
+        ctx = this;
 
         //dialog
         LayoutInflater dialogLayout = LayoutInflater.from(this);
@@ -92,10 +96,12 @@ public class CounterActivity extends AppCompatActivity {
                     @Override
                     public void on_ready(String res) {
                         super.on_ready(res);
-                        g.db.saveToken("null");
-                        i = new Intent(ctx, AuthActivity.class);
-                        finish();
-                        startActivity(i);
+                        if (res.equals(true)) {
+                            g.db.saveToken("null");
+                            i = new Intent(ctx, AuthActivity.class);
+                            finish();
+                            startActivity(i);
+                        }
                     }
                 };
                 apiHelper.send("/sign_out", "{\"key1\": \"" + g.key + "\"}");

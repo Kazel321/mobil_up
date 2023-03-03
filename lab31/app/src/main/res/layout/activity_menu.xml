@@ -20,4 +20,18 @@
         android:layout_height="wrap_content"
         android:onClick="onSelectActivity"
         android:text="@string/btnCounters" />
+
+    <Button
+        android:id="@+id/btnRates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSelectActivity"
+        android:text="@string/btnRates" />
+
+    <Button
+        android:id="@+id/btnMeasurements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSelectActivity"
+        android:text="@string/btnMeasurements" />
 </LinearLayout>
