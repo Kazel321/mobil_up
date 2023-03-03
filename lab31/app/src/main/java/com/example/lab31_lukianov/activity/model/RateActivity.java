@@ -2,6 +2,7 @@ package com.example.lab31_lukianov.activity.model;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,6 +73,7 @@ public class RateActivity extends BaseActivity
                         l.id = obj.getInt("id2");
                         ApiHelper lApi = new ApiHelper(ctx)
                         {
+                            @SuppressLint("SuspiciousIndentation")
                             @Override
                             public void on_ready(String res)
                             {
@@ -117,8 +119,8 @@ public class RateActivity extends BaseActivity
         txtValue = findViewById(R.id.txtRateValue);
 
         if (g.action == "edit") {
-            txtTs.setText(dateFormat.format(g.m.ts));
-            txtValue.setText(g.m.value.toString());
+            txtTs.setText(dateFormat.format(g.r.ts));
+            txtValue.setText(g.r.value.toString());
         }
         else
         {
