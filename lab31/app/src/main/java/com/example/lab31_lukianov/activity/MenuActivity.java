@@ -92,7 +92,7 @@ public class MenuActivity extends AppCompatActivity {
             }
             case R.id.btnMeasurements:
             {
-                i = new Intent(this, CountersActivity.class);
+                i = new Intent(this, MeasurementsActivity.class);
                 break;
             }
         }

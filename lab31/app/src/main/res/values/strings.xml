@@ -21,5 +21,6 @@
     <string name="btnAdd">ADD</string>
     <string name="btnEdit">EDIT</string>
     <string name="btnDelete">DELETE</string>
+    <string name="btnImg">IMAGE</string>
     <string name="chkSave">Save</string>
 </resources>

@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.model.MeasurementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MeasurementsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.model.RateActivity"
             android:exported="false" />
         <activity

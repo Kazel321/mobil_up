@@ -3,17 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".activity.model.RateActivity">
+    tools:context=".activity.model.MeasurementActivity">
+
+    <ImageView
+        android:id="@+id/imgMeasurements"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_gravity="center"
+        tools:src="@drawable/empty" />
+
+    <Button
+        android:id="@+id/btnImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onImage"
+        android:text="@string/btnImg" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvOneRateCounter"
+            android:id="@+id/tvOneMeasurementCounter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,14 +38,14 @@
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spnOneRateCounter"
+            android:id="@+id/spnOneMeasurementCounter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvTsRate"
+        android:id="@+id/tvTsMeasurement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -40,7 +54,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/txtOneRateTs"
+        android:id="@+id/txtOneMeasurementTs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -50,11 +64,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvRateValue"
+            android:id="@+id/tvMeasurementValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -65,7 +79,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/txtRateValue"
+            android:id="@+id/txtMeasurementValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
@@ -75,11 +89,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnSaveRate"
+            android:id="@+id/btnSaveMeasurement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -87,7 +101,7 @@
             android:text="@string/chkSave" />
 
         <Button
-            android:id="@+id/btnDelRate"
+            android:id="@+id/btnDelMeasurement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
