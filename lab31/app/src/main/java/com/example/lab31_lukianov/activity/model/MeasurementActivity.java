@@ -77,24 +77,19 @@ public class MeasurementActivity extends BaseActivity {
 
         apiHelper = new ApiHelper(ctx) {
             @Override
-            public void on_ready(String res)
-            {
+            public void on_ready(String res) {
                 try {
                     JSONArray arr = new JSONArray(res);
                     for (int i = 0; i < arr.length(); i++) {
                         JSONObject obj = arr.getJSONObject(i);
                         Location l = new Location();
                         l.id = obj.getInt("id2");
-                        ApiHelper lApi = new ApiHelper(ctx)
-                        {
+                        ApiHelper lApi = new ApiHelper(ctx) {
                             @Override
-                            public void on_ready(String res)
-                            {
-                                try
-                                {
+                            public void on_ready(String res) {
+                                try {
                                     JSONArray arr = new JSONArray(res);
-                                    for (int j = 0; j < arr.length(); j++)
-                                    {
+                                    for (int j = 0; j < arr.length(); j++) {
                                         JSONObject obj = arr.getJSONObject(j);
                                         int id = obj.getInt("id2");
                                         String name = obj.getString("name2");
@@ -105,23 +100,20 @@ public class MeasurementActivity extends BaseActivity {
                                         Counter c = new Counter(id, icon, locaiton, name, unit);
                                         cAdapter.add(c);
                                         if (g.action == "edit")
-                                            if (c.id == g.m.counter) itm = (int)cAdapter.getPosition(c);
+                                            if (c.id == g.m.counter)
+                                                itm = (int) cAdapter.getPosition(c);
                                     }
                                     cAdapter.notifyDataSetChanged();
                                     if (g.action == "edit")
-                                        spnCounters.setSelection((int)itm);
-                                }
-                                catch (Exception e)
-                                {
+                                        spnCounters.setSelection((int) itm);
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
                         };
                         lApi.send("/get_counters", "{\"key1\": \"" + g.key + "\", \"location1\": " + l.id + "}");
                     }
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -134,9 +126,7 @@ public class MeasurementActivity extends BaseActivity {
         if (g.action == "edit") {
             txtTs.setText(dateFormat.format(g.m.ts));
             txtValue.setText(g.m.value.toString());
-        }
-        else
-        {
+        } else {
             txtTs.setText(dateFormat.format(new Date()));
         }
 
@@ -145,16 +135,16 @@ public class MeasurementActivity extends BaseActivity {
 
         img = findViewById(R.id.imgMeasurements);
 
-        try {
-            String b64 = g.m.image;
-            byte[] jpeg = Base64.decode(b64, Base64.DEFAULT);
-            Bitmap bmp = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
-            img.setImageBitmap(bmp);
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(ctx, "Fail to parse image", Toast.LENGTH_SHORT).show();
-            return;
+        if (g.action == "edit") {
+            try {
+                String b64 = g.m.image;
+                byte[] jpeg = Base64.decode(b64, Base64.DEFAULT);
+                Bitmap bmp = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
+                img.setImageBitmap(bmp);
+            } catch (Exception e) {
+                Toast.makeText(ctx, "Fail to parse image", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
     }
 
@@ -201,15 +191,16 @@ public class MeasurementActivity extends BaseActivity {
 
         String image;
         try {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
-            byte[] ba = os.toByteArray();
-            image = Base64.encodeToString(ba, Base64.NO_WRAP);
+            //ByteArrayOutputStream os = new ByteArrayOutputStream();
+            //bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            //byte[] ba = os.toByteArray();
+            //image = Base64.encodeToString(ba, Base64.NO_WRAP);
+            image = "null";
         }
         catch (Exception e)
         {
             Toast.makeText(ctx, "Failed to parse image", Toast.LENGTH_SHORT).show();
-            return;
+            image = "null";
         }
 
         String req = "";
