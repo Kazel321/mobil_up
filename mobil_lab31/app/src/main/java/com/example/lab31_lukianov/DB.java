@@ -22,53 +22,6 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "CREATE TABLE APIEndPoint (endpoint TEXT);";
         db.execSQL(sql);
-        sql = "CREATE TABLE MeasImages (id TEXT, image TEXT);";
-        db.execSQL(sql);
-    }
-
-    public int getCountImage()
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        sql = "SELECT COUNT(id) FROM MeasImages;";
-        Cursor cur = db.rawQuery(sql, null);
-        if (cur.moveToFirst())
-        {
-            return cur.getInt(0);
-        }
-        return -1;
-    }
-
-    public void addImage(String id, String image)
-    {
-        SQLiteDatabase db = getWritableDatabase();
-        sql = "INSERT INTO MeasImages VALUES ('" + id + "', '" + image + "');";
-        db.execSQL(sql);
-    }
-
-    public void updateImage(String id, String image)
-    {
-        SQLiteDatabase db = getWritableDatabase();
-        sql = "UPDATE MeasImages SET image = '" + image + "' WHERE id = '" + id + "');";
-        db.execSQL(sql);
-    }
-
-    public String getImage(String id)
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        sql = "SELECT * FROM MeasImages WHERE id = '" + id + "';";
-        Cursor cur = db.rawQuery(sql, null);
-        if (cur.moveToFirst())
-        {
-            return cur.getString(1);
-        }
-        return null;
-    }
-
-    public void delImage(String id)
-    {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "DELETE FROM MeasImages WHERE id = '" + id + "';";
-        db.execSQL(sql);
     }
 
     public void saveEndPoint(String endpoint)

@@ -137,7 +137,8 @@ public class MeasurementActivity extends BaseActivity {
 
         if (g.action == "edit") {
             try {
-                String b64 = g.m.image;
+                if (g.db.getImage(g.m.image) == null) return;
+                String b64 = g.db.getImage(g.m.image);
                 byte[] jpeg = Base64.decode(b64, Base64.DEFAULT);
                 Bitmap bmp = BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length);
                 img.setImageBitmap(bmp);
@@ -189,13 +190,15 @@ public class MeasurementActivity extends BaseActivity {
         }
         int counteriId = cAdapter.getItem(spnCounters.getSelectedItemPosition()).id;
 
-        String image;
+        String image = "image" + g.db.getCountImage();
+
+        String dbImage = "";
         try {
-            //ByteArrayOutputStream os = new ByteArrayOutputStream();
-            //bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
-            //byte[] ba = os.toByteArray();
-            //image = Base64.encodeToString(ba, Base64.NO_WRAP);
-            image = "null";
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            byte[] ba = os.toByteArray();
+            dbImage = Base64.encodeToString(ba, Base64.NO_WRAP);
+            g.db.addImage(image, dbImage);
         }
         catch (Exception e)
         {
@@ -220,7 +223,11 @@ public class MeasurementActivity extends BaseActivity {
             }
         }
 
-        if (g.action == "edit") return;
+        if (g.action == "edit")
+        {
+            return;
+            //g.db.updateImage(g.m.image, dbImage);
+        }
 
         apiHelper = new ApiHelper(ctx)
         {
@@ -243,6 +250,7 @@ public class MeasurementActivity extends BaseActivity {
             @Override
             public void on_ready(String res) {
                 if (res.equals("true")) {
+                    g.db.delImage(g.m.image);
                     ctx.finish();
                     i = new Intent(ctx, MeasurementsActivity.class);
                     startActivity(i);
