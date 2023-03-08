@@ -42,7 +42,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MeasurementActivity extends BaseActivity {
 
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
     Intent i;
     ApiHelper apiHelper;
@@ -190,7 +190,7 @@ public class MeasurementActivity extends BaseActivity {
         }
         int counteriId = cAdapter.getItem(spnCounters.getSelectedItemPosition()).id;
 
-        String image = "image" + g.db.getCountImage();
+        String image = "image" + dateFormat.format(new Date());
 
         String dbImage = "";
         try {
@@ -198,7 +198,6 @@ public class MeasurementActivity extends BaseActivity {
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
             byte[] ba = os.toByteArray();
             dbImage = Base64.encodeToString(ba, Base64.NO_WRAP);
-            g.db.addImage(image, dbImage);
         }
         catch (Exception e)
         {
@@ -219,14 +218,20 @@ public class MeasurementActivity extends BaseActivity {
             case "edit":
             {
                 req = "/update_measurement";
-                body = "{\"counter1\": " + counteriId + ", \"image1\": \"" + image +"\", \"key1\": \"" + g.key + "\", \"ts1\": \"" + date + "\", \"value1\": " + value + "}";
+                body = "{\"counter1\": " + counteriId + ", \"image1\": \"" + image +"\", \"key1\": \"" + g.key + "\", \"measurement1\": " + g.m.id + ", \"ts1\": \"" + date + "\", \"value1\": " + value + "}";
             }
         }
 
         if (g.action == "edit")
         {
-            return;
-            //g.db.updateImage(g.m.image, dbImage);
+            if (image != "null")
+            g.db.updateImage(g.m.image, image, dbImage);
+            else g.db.delImage(g.m.image);
+        }
+        else
+        {
+            if (image != "null")
+            g.db.addImage(image, dbImage);
         }
 
         apiHelper = new ApiHelper(ctx)

@@ -20,7 +20,7 @@ public class Rate
         this.value = value;
     }
 
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
     public String toString()
     {

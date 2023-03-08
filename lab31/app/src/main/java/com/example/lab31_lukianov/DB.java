@@ -45,11 +45,12 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void updateImage(String id, String image)
+    public void updateImage(String id, String newId, String image)
     {
         SQLiteDatabase db = getWritableDatabase();
-        sql = "UPDATE MeasImages SET image = '" + image + "' WHERE id = '" + id + "');";
+        sql = "DELETE FROM MeasImages WHERE id = '" + id + "';";
         db.execSQL(sql);
+        addImage(newId, image);
     }
 
     public String getImage(String id)

@@ -32,7 +32,7 @@ import java.util.Date;
 public class RateActivity extends BaseActivity
 {
 
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
     Intent i;
     ApiHelper apiHelper;
@@ -159,11 +159,9 @@ public class RateActivity extends BaseActivity
             case "edit":
             {
                 req = "/update_rate";
-                body = "{\"counter1\": " + counteriId + ", \"key1\": \"" + g.key + "\", \"ts1\": \"" + date + "\", \"value1\": " + value + "}";
+                body = "{\"counter1\": " + counteriId + ", \"key1\": \"" + g.key + "\", \"rate1\": " + g.r.id + ", \"ts1\": \"" + date + "\", \"value1\": " + value + "}";
             }
         }
-
-        if (g.action == "edit") return;
 
         apiHelper = new ApiHelper(ctx)
         {

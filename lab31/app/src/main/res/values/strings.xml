@@ -10,7 +10,7 @@
     <string name="labCounter">Counter: </string>
     <string name="labUnit">Unit: </string>
     <string name="labValue">Value: </string>
-    <string name="labDate">TS in FORMAT: DD-MM-YYYY HH:MM:SS </string>
+    <string name="labDate">TS in FORMAT: MM-DD-YYYY HH:MM:SS </string>
     <string name="btnSignUp">SIGN UP</string>
     <string name="btnSignIn">SIGN IN</string>
     <string name="btnChangePass">CHANGE PASSWORD</string>
