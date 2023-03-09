@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity
                     @Override
                     public void on_ready(String res) {
                         super.on_ready(res);
-                        if (res.equals(true)) {
+                        if (res.equals("true")) {
                             g.db.saveToken("null");
                             i = new Intent(ctx, AuthActivity.class);
                             finish();

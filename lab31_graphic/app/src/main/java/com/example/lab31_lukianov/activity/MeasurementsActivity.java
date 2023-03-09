@@ -27,6 +27,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -162,8 +163,8 @@ public class MeasurementsActivity extends BaseActivity {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setCenterAxisLabels(true);
-        xAxis.setAxisMinimum(0);
-        xAxis.setAxisMaximum(32);
+        xAxis.setAxisMinimum(1);
+        xAxis.setAxisMaximum(31);
         xAxis.setLabelCount(32, true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(xAxisFormatter);
@@ -179,6 +180,66 @@ public class MeasurementsActivity extends BaseActivity {
             return "" + (int)value;
         }
     }
+
+    public void update()
+    {
+        entries.clear();
+        lst.clear();
+        apiHelper = new ApiHelper(this)
+        {
+            @Override
+            public void on_ready(String res) {
+                try
+                {
+                    JSONArray arr = new JSONArray(res);
+                    for (int j = 0; j < arr.length(); j++)
+                    {
+                        JSONObject jsonObject = arr.getJSONObject(j);
+                        int id = jsonObject.getInt("id2");
+                        Date date = parseFormat.parse(jsonObject.getString("ts2").toString());
+                        Float value = Float.parseFloat(jsonObject.get("value2").toString());
+                        String image = jsonObject.getString("image2");
+
+                        Measurement m = new Measurement(id, Integer.parseInt(selCounter), image, date, value);
+                        lst.add(m);
+
+                        Date nowDate = new Date();
+                        if (date.getMonth() == nowDate.getMonth())
+                        {
+                            entries.add(new BarEntry((int)date.getDate()+1, m.value));
+                        }
+                    }
+                    adp.notifyDataSetChanged();
+                    BarDataSet dataset = new BarDataSet(entries, "Month measurements");
+
+                    //dataset.set
+                    BarData data = new BarData(dataset);
+
+                    chart.setData(data);
+
+                    Description desc = new Description();
+                    desc.setText("day to measurement value");
+                    chart.setDescription(desc);
+
+                    chart.invalidate();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        apiHelper.send("/get_measurements", "{\"counter1\": " + selCounter + ", \"key1\": \"" + g.key + "\"}");
+    }
+
+    public void onAdd(View v)
+    {
+        g.action = "add";
+        i = new Intent(this, MeasurementActivity.class);
+        startActivity(i);
+    }
+
 
 /*
     public void updateChart()
@@ -264,57 +325,4 @@ public class MeasurementsActivity extends BaseActivity {
         apiHelper.send("/get_locations", "{\"key1\": \"" + g.key + "\"}");
     }*/
 
-    public void update()
-    {
-        entries.clear();
-        lst.clear();
-        apiHelper = new ApiHelper(this)
-        {
-            @Override
-            public void on_ready(String res) {
-                try
-                {
-                    JSONArray arr = new JSONArray(res);
-                    for (int j = 0; j < arr.length(); j++)
-                    {
-                        JSONObject jsonObject = arr.getJSONObject(j);
-                        int id = jsonObject.getInt("id2");
-                        Date date = parseFormat.parse(jsonObject.getString("ts2").toString());
-                        Float value = Float.parseFloat(jsonObject.get("value2").toString());
-                        String image = jsonObject.getString("image2");
-
-                        Measurement m = new Measurement(id, Integer.parseInt(selCounter), image, date, value);
-                        lst.add(m);
-
-                        Date nowDate = new Date();
-                        if (date.getMonth() == nowDate.getMonth())
-                        {
-                            entries.add(new BarEntry((int)date.getDate() + 1, m.value));
-                        }
-                    }
-                    adp.notifyDataSetChanged();
-                    BarDataSet dataset = new BarDataSet(entries, "График первый");
-
-                    //dataset.set
-                    BarData data = new BarData(dataset);
-
-                    chart.setData(data);
-                    chart.invalidate();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        apiHelper.send("/get_measurements", "{\"counter1\": " + selCounter + ", \"key1\": \"" + g.key + "\"}");
-    }
-
-    public void onAdd(View v)
-    {
-        g.action = "add";
-        i = new Intent(this, MeasurementActivity.class);
-        startActivity(i);
-    }
 }
