@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Lab31-Lukianov-493</string>
+    <string name="labAuth">Authentication</string>
+    <string name="labReg">Registration</string>
+    <string name="labLogin">Login</string>
+    <string name="labPassword">Password</string>
+    <string name="labName">Name:</string>
+    <string name="labNewPassword">New password</string>
+    <string name="labLocation">Location: </string>
+    <string name="labCounter">Counter: </string>
+    <string name="labUnit">Unit: </string>
+    <string name="labValue">Value: </string>
+    <string name="labDate">TS in FORMAT: MM-DD-YYYY HH:MM:SS </string>
+    <string name="btnSignUp">SIGN UP</string>
+    <string name="btnSignIn">SIGN IN</string>
+    <string name="btnChangePass">CHANGE PASSWORD</string>
+    <string name="btnLocations">LOCATIONS</string>
+    <string name="btnCounters">COUNTERS</string>
+    <string name="btnRates">RATES</string>
+    <string name="btnMeasurements">MEASUREMENTS</string>
+    <string name="btnAdd">ADD</string>
+    <string name="btnEdit">EDIT</string>
+    <string name="btnDelete">DELETE</string>
+    <string name="btnImg">IMAGE</string>
+    <string name="chkSave">Save</string>
+</resources>
